@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^3.9.2",
     "algoliasearch": "^4.12.1",
     "axios": "^0.26.0",
     "daisyui": "^2.0.9",
@@ -25,6 +26,7 @@
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
     "postcss": "^8.4.6",
+    "prisma": "^3.9.2",
     "tailwindcss": "^3.0.23"
   }
 }

@@ -4,7 +4,13 @@ import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
 import algoliasearch from "algoliasearch";
 import DatePicker from "react-datepicker";
 
-import { RiNumber1, RiNumber2, RiNumber3, RiNumber4 } from "react-icons/ri";
+import {
+  RiNumber1,
+  RiNumber2,
+  RiNumber3,
+  RiNumber4,
+  RiNumber5,
+} from "react-icons/ri";
 import Days from "./Days";
 import CampgroundSelect from "./CampgroundSelect";
 import HitComponent from "./HitComponent";
@@ -20,6 +26,7 @@ export default function MainForm() {
   const [selectedCampgrounds, setSelectedCampgrounds] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [numberOfDays, setNumberOfDays] = useState(null);
+  const [phone, setPhone] = useState("");
   const campgroundRef = useRef(null);
 
   // When component loads, smooth scroll to it
@@ -32,7 +39,12 @@ export default function MainForm() {
   }, [campgrounds, selectedCampgrounds, startDate]);
 
   const submitForm = async () => {
-    const submit = sendForm(selectedCampgrounds, startDate, numberOfDays);
+    const submit = sendForm(
+      selectedCampgrounds,
+      startDate,
+      numberOfDays,
+      phone
+    );
   };
 
   return (
@@ -100,7 +112,7 @@ export default function MainForm() {
           <div className="w-20 h-20 rounded-full bg-blue-400 flex justify-center items-center">
             <RiNumber3 size={40} color="white" />
           </div>
-          <h2 className="text-stone-800 font-bold text-3xl">
+          <h2 className="text-stone-800 font-bold text-3xl mb-3">
             Select an arrival date
           </h2>
           <DatePicker
@@ -120,26 +132,49 @@ export default function MainForm() {
           <div className="w-20 h-20 rounded-full bg-green-400 flex justify-center items-center">
             <RiNumber4 size={40} color="white" />
           </div>
-          <h2 className="text-stone-800 font-bold text-3xl">
+          <h2 className="text-stone-800 font-bold text-3xl mb-3">
             Set number of nights
           </h2>
           <Days setNumberOfDays={setNumberOfDays} />
         </div>
       )}
-      <button onClick={submitForm} className="btn-primary rounded">
-        Submit
-      </button>
+
+      {startDate && (
+        <div className="flex flex-col p-4 bg-white rounded-xl shadow border-stone-400 text-center items-center gap-2">
+          <div className="w-20 h-20 rounded-full bg-red-400 flex justify-center items-center">
+            <RiNumber5 size={40} color="white" />
+          </div>
+          <h2 className="text-stone-800 font-bold text-3xl mb-3">
+            Phone number
+          </h2>
+          <input
+            onChange={(e) => setPhone(e.target.value)}
+            value={phone}
+            className="input input-bordered w-full max-w-xs"
+          />
+          <button onClick={submitForm} className="btn btn-primary">
+            Submit
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-async function sendForm(selectedCampgrounds, startDate, numberOfDays) {
+async function sendForm(selectedCampgrounds, startDate, numberOfDays, phone) {
   const submit = axios("/api/submit", {
     method: "POST",
     data: {
       selectedCampgrounds,
       startDate,
       numberOfDays,
+      phone,
     },
   });
+}
+
+{
+  // /* <button onClick={submitForm} className="btn-primary rounded">
+  //       Submit
+  //     </button> */
 }
