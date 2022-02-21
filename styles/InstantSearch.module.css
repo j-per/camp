@@ -1,0 +1,31 @@
+.instant-search {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.instant-search input {
+  flex-basis: 200px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 1rem;
+  font-size: 16px;
+  border-width: 2px;
+  border-color: #cccccc;
+  background-color: #ffffff;
+  color: #000000;
+  border-style: solid;
+  position: relative;
+  width: 100%;
+}
+
+.instant-search input:focus {
+  outline: none;
+  border: 2px solid rgb(120 113 108);
+}
+
+@media only screen and (max-width: 600px) {
+  .instant-search {
+    width: 100%;
+  }
+}

@@ -9,12 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "algoliasearch": "^4.12.1",
+    "axios": "^0.26.0",
+    "daisyui": "^2.0.9",
+    "jotai": "^1.6.0",
     "next": "12.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-datepicker": "^4.6.0",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-instantsearch-dom": "^6.22.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.2",
     "eslint": "8.9.0",
-    "eslint-config-next": "12.1.0"
+    "eslint-config-next": "12.1.0",
+    "postcss": "^8.4.6",
+    "tailwindcss": "^3.0.23"
   }
 }
