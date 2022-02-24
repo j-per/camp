@@ -22,6 +22,7 @@ const searchClient = algoliasearch(
 );
 
 export default function MainForm() {
+  const [park, setPark] = useState(null);
   const [campgrounds, setCampgrounds] = useState(false);
   const [selectedCampgrounds, setSelectedCampgrounds] = useState([]);
   const [startDate, setStartDate] = useState(null);
@@ -40,6 +41,7 @@ export default function MainForm() {
 
   const submitForm = async () => {
     const submit = sendForm(
+      park,
       selectedCampgrounds,
       startDate,
       numberOfDays,
@@ -64,13 +66,16 @@ export default function MainForm() {
           >
             <SearchBox
               defaultRefinement="San Eljio"
-              showLoadingIndicator
               submit={null}
               reset={null}
             />
             <Hits
               hitComponent={(hit) => (
-                <HitComponent hit={hit} setCampgrounds={setCampgrounds} />
+                <HitComponent
+                  hit={hit}
+                  setCampgrounds={setCampgrounds}
+                  setPark={setPark}
+                />
               )}
             />
           </InstantSearch>
@@ -161,20 +166,21 @@ export default function MainForm() {
   );
 }
 
-async function sendForm(selectedCampgrounds, startDate, numberOfDays, phone) {
-  const submit = axios("/api/submit", {
+async function sendForm(
+  park,
+  selectedCampgrounds,
+  startDate,
+  numberOfDays,
+  phone
+) {
+  const submit = await axios("/api/submit", {
     method: "POST",
     data: {
+      park,
       selectedCampgrounds,
       startDate,
       numberOfDays,
       phone,
     },
   });
-}
-
-{
-  // /* <button onClick={submitForm} className="btn-primary rounded">
-  //       Submit
-  //     </button> */
 }

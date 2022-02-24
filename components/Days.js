@@ -13,7 +13,7 @@ export default function Days({ setNumberOfDays }) {
         name="1"
         className={`${
           activeButton === "1" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         1
@@ -22,7 +22,7 @@ export default function Days({ setNumberOfDays }) {
         name="2"
         className={`${
           activeButton === "2" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         2
@@ -31,7 +31,7 @@ export default function Days({ setNumberOfDays }) {
         name="3"
         className={`${
           activeButton === "3" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         3
@@ -40,7 +40,7 @@ export default function Days({ setNumberOfDays }) {
         name="4"
         className={`${
           activeButton === "4" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         4
@@ -49,7 +49,7 @@ export default function Days({ setNumberOfDays }) {
         name="5"
         className={`${
           activeButton === "5" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         5
@@ -58,7 +58,7 @@ export default function Days({ setNumberOfDays }) {
         name="6"
         className={`${
           activeButton === "6" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         6
@@ -67,7 +67,7 @@ export default function Days({ setNumberOfDays }) {
         name="7"
         className={`${
           activeButton === "7" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         7
@@ -76,7 +76,7 @@ export default function Days({ setNumberOfDays }) {
         name="8"
         className={`${
           activeButton === "8" ? `bg-gray-300` : ""
-        } bg-gray-200 px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
+        }  px-12 py-2 rounded hover:bg-gray-300 border-2 border-gray-300`}
         onClick={updateSelect}
       >
         8

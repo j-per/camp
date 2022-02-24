@@ -7,10 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model campgrounds {
   id          Int    @id @default(autoincrement())
-  phone       String @unique @db.VarChar(255)
-  campgrounds String @db.VarChar(255)
-  days        String @db.VarChar(255)
+  user_id     Int
+  park_name   String @db.VarChar(255)
+  facility_id Int
+  days        Int
   start_date  String @db.VarChar(255)
+  users       users  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+}
+
+model users {
+  id          Int           @id @default(autoincrement())
+  phone       String        @unique @db.VarChar(255)
+  campgrounds campgrounds[]
 }

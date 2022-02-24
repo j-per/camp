@@ -1,8 +1,9 @@
 import axios from "axios";
 
-export default function HitComponent({ hit, setCampgrounds }) {
+export default function HitComponent({ hit, setPark, setCampgrounds }) {
   const getCampgrounds = async () => {
     const campgrounds = await fetchCampgrounds(hit.hit.CityParkId);
+    setPark(hit.hit.Name);
     setCampgrounds(campgrounds);
   };
   return (
