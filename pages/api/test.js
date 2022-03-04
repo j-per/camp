@@ -1,20 +1,23 @@
 import { PrismaClient } from "@prisma/client";
+import { format } from "date-fns";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  await prisma.users.create({
-    data: {
-      phone: "9516233209",
+  const activeUsers = await prisma.users.findMany({
+    where: {
+      active: 1,
+    },
+    include: {
       campgrounds: {
-        create: {
-          code: 708,
-          days: "2",
-          start_date: "05-10-2022",
+        where: {
+          start_date: {
+            gte: format(new Date(), "yyyy-MM-dd"),
+          },
         },
       },
     },
   });
-  //const allUsers = await prisma.users.findMany();
-  res.status(200).send("done");
+  activeUsers.forEach((u) => console.log(u.phone));
+  res.status(200).send(activeUsers);
 }

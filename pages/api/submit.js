@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { format } from "date-fns";
 
 const prisma = new PrismaClient();
 
@@ -28,6 +29,7 @@ async function checkIfUserExists(phone) {
   const createUser = await prisma.users.create({
     data: {
       phone,
+      active: 1,
     },
   });
   return createUser.id;
@@ -40,7 +42,7 @@ async function updateCampgrounds(
   startDate,
   numberOfDays
 ) {
-  const d = new Date(startDate);
+  const d = format(new Date(), "yyyy-MM-dd");
   for (const i of selectedCampgrounds) {
     const upsertCampgrounds = await prisma.campgrounds.create({
       data: {

@@ -183,4 +183,5 @@ async function sendForm(
       phone,
     },
   });
+  console.log(submit.data);
 }
