@@ -1,14 +1,26 @@
 import axios from "axios";
 
-export default function HitComponent({ hit, setPark, setCampgrounds }) {
+export default function HitComponent({
+  hit,
+  setPark,
+  setCampgrounds,
+  setError,
+}) {
   const getCampgrounds = async () => {
+    setError(null);
+    setCampgrounds(false);
     const campgrounds = await fetchCampgrounds(hit.hit.CityParkId);
+    if (campgrounds.error) {
+      setError(campgrounds.error);
+      return;
+    }
     setPark(hit.hit.Name);
     setCampgrounds(campgrounds);
   };
   return (
     <button
-      className="bg-stone-300 w-full p-4 border-l-2 border-r-2 border-b-2 border-stone-500 hover:bg-stone-400 cursor-pointer"
+      className="bg-stone-100 w-full p-4 border-l-2 border-r-2 border-b-2  hover:bg-stone-300 cursor-pointer testing"
+      style={{ borderColor: "#cccccc" }}
       onClick={() => getCampgrounds()}
     >
       {hit.hit.Name}
