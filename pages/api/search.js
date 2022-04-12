@@ -28,7 +28,6 @@ async function reteiveCampgrounds(id) {
   );
   // Get facility information from RC
   const response = request.data.SelectedPlace?.Facilities;
-  console.log(response);
   if (!response) {
     return { error: "No campgrounds found" };
   }
