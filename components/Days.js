@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export default function Days({ setNumberOfDays }) {
+export default function Days({ setNumberOfNights }) {
   const [activeButton, setActiveButton] = useState(null);
   const updateSelect = (e) => {
     setActiveButton(e.target.name);
-    setNumberOfDays(parseInt(e.target.name));
+    setNumberOfNights(parseInt(e.target.name));
   };
 
   return (

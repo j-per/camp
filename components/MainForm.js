@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
-import algoliasearch from "algoliasearch";
 import DatePicker from "react-datepicker";
+import Campgrounds from "./Campgrounds";
+import CampgroundSelect from "./CampgroundSelect";
+import Alert from "./Alert";
 
 import {
   RiNumber1,
@@ -13,28 +14,21 @@ import {
 } from "react-icons/ri";
 import { AiFillCheckCircle } from "react-icons/ai";
 import Days from "./Days";
-import CampgroundSelect from "./CampgroundSelect";
-import HitComponent from "./HitComponent";
 import LoadingSpinner from "./LoadingSpinner";
-import styles from "../styles/InstantSearch.module.css";
-
-const searchClient = algoliasearch(
-  "QGKBTJL25P",
-  "69b22d3524f610ffe4af9a82007ed784"
-);
 
 export default function MainForm() {
-  const [park, setPark] = useState(null);
+  const [park, setPark] = useState({});
   const [campgrounds, setCampgrounds] = useState(false);
   const [selectedCampgrounds, setSelectedCampgrounds] = useState([]);
   const [startDate, setStartDate] = useState(null);
-  const [numberOfDays, setNumberOfDays] = useState(null);
+  const [numberOfNights, setNumberOfNights] = useState(null);
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
   const campgroundRef = useRef(null);
   const [error, setError] = useState(null);
 
+  const parkSelect = useRef(null);
   const phoneInput = useRef(null);
 
   // When component loads, smooth scroll to it
@@ -44,7 +38,7 @@ export default function MainForm() {
         behavior: "smooth",
       });
     }
-  }, [campgrounds, selectedCampgrounds, startDate, numberOfDays]);
+  }, [campgrounds, selectedCampgrounds, startDate, numberOfNights]);
 
   const submitForm = async (e) => {
     if (phoneInput.current.value === "") {
@@ -56,18 +50,38 @@ export default function MainForm() {
       park,
       selectedCampgrounds,
       startDate,
-      numberOfDays,
+      numberOfNights,
       phone
     );
     if (res === "Complete") {
       setCampgrounds(false);
       setSelectedCampgrounds([]);
       setStartDate(null);
-      setNumberOfDays(null);
+      setNumberOfNights(null);
       setPhone("");
       setComplete(true);
     }
     setLoading(false);
+  };
+
+  const updateCampgrounds = async () => {
+    const name =
+      parkSelect.current.options[parkSelect.current.selectedIndex].text;
+    const id = parkSelect.current.value;
+    setPark({ name, id });
+
+    const res = await axios("/api/search", {
+      method: "POST",
+      data: {
+        parkID: id,
+      },
+    });
+    if (res.data.error) {
+      setError(res.data.error);
+      setCampgrounds(false);
+      return;
+    }
+    setCampgrounds(res.data);
   };
 
   return (
@@ -77,39 +91,18 @@ export default function MainForm() {
           <div className="w-20 h-20 rounded-full bg-yellow-400 flex justify-center items-center">
             <RiNumber1 size={35} color="white" />
           </div>
-          <h3 className="text-stone-800 font-bold text-3xl">
-            Search for a park
-          </h3>
+          <h3 className="text-stone-800 font-bold text-3xl">Select a park</h3>
           <p className="text-black">
-            Start by entering the name of the park you would like to visit.
+            Start by selecting the name of the park you would like to visit:
           </p>
-          <div className={`${styles["instant-search"]}`}>
-            <InstantSearch
-              searchClient={searchClient}
-              indexName="new-index-1645255435"
-            >
-              <SearchBox
-                //defaultRefinement="South Carlsbad SB"
-                submit={null}
-                reset={null}
-              />
-              <Hits
-                hitComponent={(hit) => (
-                  <HitComponent
-                    hit={hit}
-                    setCampgrounds={setCampgrounds}
-                    setPark={setPark}
-                    setError={setError}
-                  />
-                )}
-              />
-            </InstantSearch>
-          </div>
-          {error && (
-            <p className="p-2 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800">
-              {error}
-            </p>
-          )}
+          <select
+            onChange={() => updateCampgrounds()}
+            ref={parkSelect}
+            className="select select-bordered w-full max-w-xs"
+          >
+            <Campgrounds />
+          </select>
+          {error && <Alert message={`${error}. Please select another park.`} />}
         </div>
       )}
 
@@ -171,11 +164,11 @@ export default function MainForm() {
           <h3 className="text-stone-800 font-bold text-3xl mb-3">
             Set number of nights
           </h3>
-          <Days setNumberOfDays={setNumberOfDays} />
+          <Days setNumberOfNights={setNumberOfNights} />
         </div>
       )}
 
-      {numberOfDays && (
+      {numberOfNights && (
         <div className="flex flex-col p-4 bg-white rounded-xl shadow border-stone-400 text-center items-center gap-2">
           <div className="w-20 h-20 rounded-full bg-red-400 flex justify-center items-center">
             <RiNumber5 size={35} color="white" />
@@ -220,7 +213,7 @@ async function sendForm(
   park,
   selectedCampgrounds,
   startDate,
-  numberOfDays,
+  numberOfNights,
   phone
 ) {
   const res = await axios("/api/submit", {
@@ -229,7 +222,7 @@ async function sendForm(
       park,
       selectedCampgrounds,
       startDate,
-      numberOfDays,
+      numberOfNights,
       phone,
     },
   });

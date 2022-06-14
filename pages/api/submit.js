@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { format } from "date-fns";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  const { park, selectedCampgrounds, startDate, numberOfDays, phone } =
+  const { park, selectedCampgrounds, startDate, numberOfNights, phone } =
     req.body;
   const userId = await checkIfUserExists(phone);
   const setCampgrounds = await updateCampgrounds(
@@ -12,7 +11,7 @@ export default async function handler(req, res) {
     userId,
     selectedCampgrounds,
     startDate,
-    numberOfDays
+    numberOfNights
   );
   res.status(200).send("Complete");
 }
@@ -40,17 +39,18 @@ async function updateCampgrounds(
   id,
   selectedCampgrounds,
   startDate,
-  numberOfDays
+  numberOfNights
 ) {
-  const d = format(new Date(), "yyyy-MM-dd");
+  const d = new Date(startDate);
   for (const i of selectedCampgrounds) {
     const upsertCampgrounds = await prisma.campgrounds.create({
       data: {
         user_id: id,
-        park_name: park,
+        park_name: park.name,
         facility_id: parseInt(i),
-        days: numberOfDays,
-        start_date: d.toString(),
+        nights: numberOfNights,
+        start_date: d,
+        park_id: parseInt(park.id),
       },
     });
   }
