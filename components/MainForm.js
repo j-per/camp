@@ -65,6 +65,7 @@ export default function MainForm() {
   };
 
   const updateCampgrounds = async () => {
+    setError(false);
     const name =
       parkSelect.current.options[parkSelect.current.selectedIndex].text;
     const id = parkSelect.current.value;
